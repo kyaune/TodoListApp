@@ -1,19 +1,24 @@
 import React from "react";
-import ReacnDOM from "react-dom";
 import "./add-item.css";
 
-const AddItemButton = ({ onSubmit, handleChange, addItemValue }) => {
+const AddItemButton = ({ onSubmit, addItem, addItemValue }) => {
   return (
-    <form className="add-form" onSubmit={() => onSubmit(addItemValue)}>
-      <label>
-        <input
-          type="text"
-          value={addItemValue}
-          onChange={() => handleChange(addItemValue)}
-        ></input>
-      </label>
-      <input type="submit" className=" add-button" value="Add Item"></input>
-    </form>
+    // <form className="add-form" onSubmit={() => onSubmit(addItemValue)}>
+    //   <label>
+    //     <input
+    //       type="text"
+    //       value={addItemValue}
+    //       onChange={() => handleChange(addItemValue)}
+    //     ></input>
+    //   </label>
+    <button
+      type="primary"
+      className="btn add-button btn-outline-primary"
+      onClick={() => addItem("Hello world!")}
+    >
+      Add Item
+    </button>
+    //</form>
   );
 };
 
