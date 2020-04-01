@@ -1,4 +1,9 @@
-.add-button {
+.add-form {
   margin: 0.75rem;
+}
+.add-button {
   float: right;
+}
+.add-form input {
+  margin-right: 3px;
 }
