@@ -16,6 +16,9 @@ class AddItemButton extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     this.props.addItem(this.state.label);
+    this.setState({
+      label: ""
+    });
   };
   render() {
     return (
@@ -24,6 +27,7 @@ class AddItemButton extends React.Component {
           type="text"
           className="form-control"
           onChange={this.onLabelChange}
+          value={this.state.label}
           placeholder="What to do next?"
         ></input>
         <button

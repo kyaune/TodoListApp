@@ -12,11 +12,13 @@ class App extends React.Component {
     super();
     this.state = {
       todoData: [
-        this.createTodoItem("Drink coffee"),
+        this.createTodoItem("drink coffee"),
         this.createTodoItem("make awesome app"),
-        this.createTodoItem("Have a lunch")
+        this.createTodoItem("drink coffee")
       ],
-      addItemValue: ""
+      // todosFiltered: this.todoData,
+      addItemValue: "",
+      searchText: ""
     };
   }
   createTodoItem = label => {
@@ -85,28 +87,34 @@ class App extends React.Component {
       };
     });
   };
+  onSearch = text => {
+    this.setState({
+      searchText: text
+      //todosFiltered: todosFilteredNew
+    });
+  };
   render() {
     const doneCount = this.state.todoData.filter(el => el.done).length;
     const todoCount = this.state.todoData.length - doneCount;
+    const todosFiltered = this.state.todoData.filter(item =>
+      item.label.startsWith(this.state.searchText)
+    );
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
-          <SearchPanel />
+          <SearchPanel onSearch={this.onSearch} />
           <ItemStatusFilter />
         </div>
 
         <TodoList
-          todos={this.state.todoData}
+          todos={todosFiltered}
           onDeleted={this.deleteItem}
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
+          text={this.state.searchText}
         />
-        <AddItemButton
-          addItem={this.addItem}
-          // hadleChange={this.hadleChange}
-          //  addItemValue={this.state.addItemValue}
-        />
+        <AddItemButton addItem={this.addItem} />
       </div>
     );
   }
