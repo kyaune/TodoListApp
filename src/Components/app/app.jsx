@@ -16,9 +16,8 @@ class App extends React.Component {
         this.createTodoItem("make awesome app"),
         this.createTodoItem("drink coffee")
       ],
-      // todosFiltered: this.todoData,
-      addItemValue: "",
-      searchText: ""
+      searchText: "",
+      filter: "all"
     };
   }
   createTodoItem = label => {
@@ -90,21 +89,42 @@ class App extends React.Component {
   onSearch = text => {
     this.setState({
       searchText: text
-      //todosFiltered: todosFilteredNew
+    });
+  };
+  filterTasks(items) {
+    const { filter } = this.state;
+    switch (filter) {
+      case "all":
+        return items;
+      case "active":
+        return items.filter(item => !item.done);
+      case "done":
+        return items.filter(item => item.done);
+      default:
+        return items;
+    }
+  }
+  onFilterChange = term => {
+    this.setState({
+      filter: term
     });
   };
   render() {
+    const { todoData, searchText, filter } = this.state;
     const doneCount = this.state.todoData.filter(el => el.done).length;
     const todoCount = this.state.todoData.length - doneCount;
-    const todosFiltered = this.state.todoData.filter(item =>
-      item.label.startsWith(this.state.searchText)
+    const todosFiltered = this.filterTasks(
+      todoData.filter(item => item.label.startsWith(searchText))
     );
     return (
       <div className="todo-app">
         <AppHeader toDo={todoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel onSearch={this.onSearch} />
-          <ItemStatusFilter />
+          <ItemStatusFilter
+            filter={filter}
+            onFilterChange={this.onFilterChange}
+          />
         </div>
 
         <TodoList
@@ -112,7 +132,7 @@ class App extends React.Component {
           onDeleted={this.deleteItem}
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
-          text={this.state.searchText}
+          text={searchText}
         />
         <AddItemButton addItem={this.addItem} />
       </div>
